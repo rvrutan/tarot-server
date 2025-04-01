@@ -1,14 +1,18 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = 3000;
 
-// Import the cards route
-const cardsRouter = require('./routes/routes.js');
+app.use(cors()); // Allow requests from the client
 
-// Use the cards router
-app.use('/', cardsRouter);
+// Serve static files
+app.use(express.static('assets'));
 
-// Start the server
+// API route to get tarot cards
+app.get('/api/cards', (req, res) => {
+  res.sendFile(__dirname + '/assets/cards.json');
+});
+
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });
