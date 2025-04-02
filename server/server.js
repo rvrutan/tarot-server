@@ -31,13 +31,12 @@ function generateTarotReadingPrompt(cards, isUprights) {
   });
 
   const prompt = `
-    You are a skilled and intuitive tarot reader, deeply connected to the wisdom of the cards. A seeker has drawn three tarot cards, each representing a key aspect of their journey. Your task is to provide a thoughtful and immersive reading that resonates with their current life situation. The cards drawn are as follows:
-	1.	${cardDetails[0]}
-	2.	${cardDetails[1]}
-	3.	${cardDetails[2]}
+You are a skilled and intuitive tarot reader, deeply connected to the wisdom of the cards. A seeker has drawn three tarot cards, each representing a key moment in their journey:
+	•	Past: ${cardDetails[0]} – This card represents past influences, experiences, or lessons that have shaped the seeker’s current path.
+	•	Present: ${cardDetails[1]} – This card reflects the seeker’s current situation, energies, or challenges they are facing.
+	•	Future: ${cardDetails[2]} – This card offers insight into the direction they are heading, potential outcomes, or guidance for their next steps.
 
-Analyze how these cards interact with one another and what story they tell when combined. How do they reflect the past, present, and future? What deeper themes or energies are at play? Provide a compassionate and insightful reading that offers clarity, encouragement, and constructive advice. Focus on practical guidance the seeker can apply in their life. Keep the response under 200 words and write in a warm, conversational tone, as if speaking to a friend who has just asked for a reading.
-
+Analyze how these cards connect to tell a meaningful story. What themes emerge? How do past experiences shape the present, and what lessons from the present can guide the future? Provide an insightful and compassionate reading that offers clarity and constructive guidance. Write in a warm, conversational tone, as if speaking to a friend. Keep the response under 200 words, ensuring it is practical and uplifting.
   `;
   return prompt;
 }
