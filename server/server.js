@@ -74,7 +74,7 @@ app.post('/api/tarot-reading', async (req, res) => {
 });
 
 app.get('/api/cards', (req, res) => {
-  const cards = tarotData.cards;
+  const cards = cardsData.cards;
   res.json(cards);
 });
 
