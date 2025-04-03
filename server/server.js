@@ -73,7 +73,22 @@ app.post('/api/tarot-reading', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 5000;
+app.get('/api/cards', (req, res) => {
+  const cards = tarotData.cards;
+  res.json(cards);
+});
+
+app.get('/api/all-cards', async (req, res) => {
+  try {
+    const allCards = cardsData.cards; // Access the full array of cards
+    res.json({ cards: allCards }); // Return all cards in a consistent JSON format
+  } catch (error) {
+    console.error('Error fetching all tarot cards:', error);
+    res.status(500).json({ error: 'Failed to fetch all tarot cards.' });
+  }
+});
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

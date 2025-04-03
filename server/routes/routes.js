@@ -15,4 +15,11 @@ router.get('/cards/random', (req, res) => {
   res.json(randomCard);
 });
 
+router.get('/cards', (req, res) => {
+  const cards = tarotData.cards;
+  res.json(cards);
+});
+
+
+
 module.exports = router;
