@@ -10,6 +10,29 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Middleware
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl requests)
+      if (!origin) return callback(null, true);
+
+      // Allow localhost for development
+      if (origin.includes("localhost")) return callback(null, true);
+
+      // Allow any Netlify deployment
+      if (origin.includes("netlify.app")) return callback(null, true);
+
+      // Otherwise, deny the request
+      callback(new Error("Not allowed by CORS"));
+    },
+
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 const YOUR_API_KEY = process.env.GEMINI_API;
 const genAI = new GoogleGenerativeAI(YOUR_API_KEY);
 
@@ -82,6 +105,7 @@ app.get('/api/all-cards', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch all tarot cards.' });
   }
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
