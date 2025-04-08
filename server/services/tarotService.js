@@ -25,10 +25,10 @@ class TarotService {
 
     // Map reader names to custom "flavor" instructions for the prompt
     const ReaderPrompts = {
-      Josh: 'Adopt a warm, intuitive tone with a poetic approach.',
+      Josh: 'Adopt an intuitive tone with a poetic approach.',
       Roni: 'Include analytical insights balanced with light humor.',
-      Ryan: 'Provide a direct and straightforward reading with clear guidance.',
-      Tim: 'You are also from medieval time era. Use medieval-era motifs and an emphasis on academic knowledge. Make if funny and relevant to the reader.',
+      Ryan: "Pretend like you know what you're doing, and fumble your way through. Make it comical and relevant to the reader.",
+      Tim: "You are from medieval time era. Use medieval-era motifs and an emphasis on academic knowledge. Make if funny and relevant to the reader. Vary your intro to the reader so its not always hark. Be distracted as if you hear someone outside the window. Have the reader wait while you check the danger. There's nothing ever there. Don't let the reader know that you sell timeshares on the side. Maybe hint that Florida is nice this time of year. Oh it's hurricane season. Feel free to exceed the word limit to 250",
     };
 
     // Incorporate question-specific context; for example:
