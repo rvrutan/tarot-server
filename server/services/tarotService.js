@@ -10,7 +10,12 @@ class TarotService {
     return shuffled.slice(0, count);
   }
 
-  static generateTarotReadingPrompt(cards, isUprights) {
+  static generateTarotReadingPrompt(
+    cards,
+    isUprights,
+    selectedQuestion,
+    selectedReader
+  ) {
     const cardDetails = cards.map((card, index) => {
       const isUpright = isUprights[index];
       const meanings = card.meanings[isUpright ? 'light' : 'shadow'];
@@ -18,13 +23,47 @@ class TarotService {
       return `${card.name} (${isUpright ? 'Upright' : 'Reversed'}): ${meaning}`;
     });
 
-    return `
-You are a skilled and intuitive tarot reader, deeply connected to the wisdom of the cards. A seeker has drawn three tarot cards, each representing a key moment in their journey:
-  • Past: ${cardDetails[0]} – This card represents past influences, experiences, or lessons that have shaped the seeker's current path.
-  • Present: ${cardDetails[1]} – This card reflects the seeker's current situation, energies, or challenges they are facing.
-  • Future: ${cardDetails[2]} – This card offers insight into the direction they are heading, potential outcomes, or guidance for their next steps.
+    // Map reader names to custom "flavor" instructions for the prompt
+    const ReaderPrompts = {
+      Josh: 'Adopt a warm, intuitive tone with a poetic approach.',
+      Roni: 'Include analytical insights balanced with light humor.',
+      Ryan: 'Provide a direct and straightforward reading with clear guidance.',
+      Tim: 'You are also from medieval time era. Use medieval-era motifs and an emphasis on academic knowledge. Make if funny and relevant to the reader.',
+    };
 
-Analyze how these cards connect to tell a meaningful story. What themes emerge? How do past experiences shape the present, and what lessons from the present can guide the future? Provide an insightful and compassionate reading that offers clarity and constructive guidance. Write in a warm, conversational tone, as if speaking to a friend. Keep the response under 200 words, ensuring it is practical and uplifting.
+    // Incorporate question-specific context; for example:
+    const questionContext = {
+      'Love Life':
+        'Focus on relationships, emotions, and deep personal connections.',
+      School:
+        'Look at academic challenges, learning opportunities, and social dynamics.',
+      Career:
+        'Reflect on professional growth, ambition, and potential challenges in the workplace.',
+      Friends:
+        'Consider social influences, community, and interpersonal dynamics.',
+      'General Reading':
+        'Offer a holistic overview with balanced insights and guidance.',
+    };
+
+    return `
+  You are a skilled and intuitive tarot reader, deeply connected to the wisdom of the cards.
+  A seeker has drawn three tarot cards, each representing a key moment in their journey:
+    • Past: ${
+      cardDetails[0]
+    } – This card represents past influences and lessons.
+    • Present: ${
+      cardDetails[1]
+    } – This card reflects the current situation, energies, and challenges.
+    • Future: ${
+      cardDetails[2]
+    } – This card offers insight into what may come and guidance for next steps.
+  The seeker is specifically asking about ${selectedQuestion.toLowerCase()}. ${
+      questionContext[selectedQuestion] || ''
+    }
+  Additionally, please incorporate the following style note as suggested by ${selectedReader}: ${
+      ReaderPrompts[selectedReader] || ''
+    }
+  Analyze how these cards connect to tell a meaningful story. What themes emerge? How do past experiences shape the present, and what lessons from the present can guide the future? Provide an insightful reading that offers clarity and constructive guidance. Write in a somewhat poetic style, and keep the response under 200 words. Provide the response in plain text with no Markdown formatting or emphasis characters.
     `;
   }
 
@@ -35,11 +74,19 @@ Analyze how these cards connect to tell a meaningful story. What themes emerge? 
     return response.text();
   }
 
-  static async generateReading() {
-    const drawnCards = this.getRandomCards(3);
-    const isUprights = Array(3).fill().map(() => Math.random() >= 0.5);
-    const prompt = this.generateTarotReadingPrompt(drawnCards, isUprights);
-    const reading = await this.getTarotReading(prompt);
+  static async generateCustomReading(selectedQuestion, selectedReader) {
+    const drawnCards = TarotService.getRandomCards(3);
+    const isUprights = Array(3)
+      .fill()
+      .map(() => Math.random() >= 0.5);
+    // Pass additional context to your prompt generator:
+    const prompt = TarotService.generateTarotReadingPrompt(
+      drawnCards,
+      isUprights,
+      selectedQuestion,
+      selectedReader
+    );
+    const reading = await TarotService.getTarotReading(prompt);
     return { cards: drawnCards, reading, isUprights };
   }
 
@@ -48,4 +95,4 @@ Analyze how these cards connect to tell a meaningful story. What themes emerge? 
   }
 }
 
-module.exports = TarotService; 
+module.exports = TarotService;
