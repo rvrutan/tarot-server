@@ -27,7 +27,7 @@ class TarotService {
     const ReaderPrompts = {
       'Josh "the Skald"': 'Adopt an intuitive tone with a poetic approach.',
       'Roni "the Witch"':
-        'Include analytical insights balanced with rupaul and drag humor.',
+        'Include analytical insights balanced with drag humor.',
       'Ryan "the Fool"':
         "Pretend like you know what you're doing, and fumble your way through. Make it comical and relevant to the reader.",
       'Tim "the Bog Witch"':
